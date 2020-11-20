@@ -11,7 +11,7 @@ class Board
 	# Clear all positions on the Mastermind gameboard
 	def reset_board
 		@secret_board = []
-		Mastermind::BOARD_WIDTH.times { @secret_board << Mastermind::COLORS[:blank] }
+		Settings::BOARD_WIDTH.times { @secret_board << Settings::COLORS[:blank] }
 		@decoding_board = blank_board
 		@rating_board = blank_board
 	end
@@ -37,10 +37,10 @@ class Board
 	# Convert the rating of guess to a format that can be easily displayed
 	def rating_board_data(rating)
 		data = []
-		rating[0].times { data << Mastermind::COLORS[:black] }
-		rating[1].times { data << Mastermind::COLORS[:white] }
-		(Mastermind::BOARD_WIDTH - rating[0] - rating[1]).times do
-			data << Mastermind::COLORS[:blank]
+		rating[0].times { data << Settings::COLORS[:black] }
+		rating[1].times { data << Settings::COLORS[:white] }
+		(Settings::BOARD_WIDTH - rating[0] - rating[1]).times do
+			data << Settings::COLORS[:blank]
 		end
 		data
 	end
@@ -65,7 +65,7 @@ class Board
 	# Create a blank board
 	def blank_board
 		blank_board = []
-		Mastermind::MAX_GUESSES.times do
+		Settings::MAX_GUESSES.times do
 			blank_board << get_blank_row
 		end
 		blank_board
@@ -74,17 +74,17 @@ class Board
 	# Create a blank row on the board
 	def get_blank_row
 		blank_row = []
-		Mastermind::BOARD_WIDTH.times { blank_row << Mastermind::COLORS[:blank] }
+		Settings::BOARD_WIDTH.times { blank_row << Settings::COLORS[:blank] }
 		blank_row
 	end
 
 	# Display colors players may choose from
 	def display_colors
 		print "\nColors: "
-		Mastermind::COLORS.each do |color, _color_code|
+		Settings::COLORS.each do |color, _color_code|
 			unless color == :blank || color == :black || color == :white
 				color_string = color.to_s.capitalize
-				print Mastermind::color("  #{color_string}  ", color)
+				print Settings::color("  #{color_string}  ", color)
 			end
 		end
 		puts "\nChoose a color with it's full name or it's first character"
@@ -142,8 +142,8 @@ class Board
 		print "\t" if tab
 		row.each do |hole_color| 
 			print SEPARATOR[:vertical]
-			print Mastermind::colorize(" " * width, 
-				                         Mastermind::get_color_code(hole_color))
+			print Settings::colorize(" " * width, 
+				                         Settings::get_color_code(hole_color))
 		end
 		print SEPARATOR[:vertical]
 		puts if new_line
@@ -171,7 +171,7 @@ class Board
 	def display_separator_row(left, middle, right, width, new_line, tab)
 		print "\t" if tab
 		to_display = left
-		Mastermind::BOARD_WIDTH.times do
+		Settings::BOARD_WIDTH.times do
 			width.times { to_display += SEPARATOR[:horizontal] }
 			to_display += middle
 	  end

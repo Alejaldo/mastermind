@@ -37,19 +37,19 @@ class Player
 	# Get a list of colors from the human player
 	def get_colors_from_player(prompt)
 		while true
-			colors = encode_input Mastermind.get_user_input(prompt)
+			colors = encode_input Settings.get_user_input(prompt)
 			return colors unless colors.nil?
-			puts Mastermind.color(INVALID_INPUT_MESSAGE, "error")
+			puts Settings.color(INVALID_INPUT_MESSAGE, "error")
 		end
 	end
 
 	# Begin processing user's list of colors
 	def encode_input input
-		if input.strip.length == Mastermind::BOARD_WIDTH
+		if input.strip.length == Settings::BOARD_WIDTH
 			input = input.strip.split("").join(",")
 		end
 		colors = input.split(",").join(" ").split(" ")
-		return nil if colors.length != Mastermind::BOARD_WIDTH
+		return nil if colors.length != Settings::BOARD_WIDTH
 
 		encode_colors colors
 	end
@@ -68,21 +68,21 @@ class Player
 	# Convert the string representation of a color to a number
 	def encode_color color
 		case color.downcase
-		when 'red',     'r' then Mastermind::COLORS[:red]
-		when 'green',   'g' then Mastermind::COLORS[:green]
-		when 'yellow',  'y' then Mastermind::COLORS[:yellow]
-		when 'blue',    'b' then Mastermind::COLORS[:blue]
-		when 'magenta', 'm' then Mastermind::COLORS[:magenta]
-		when 'cyan',    'c' then Mastermind::COLORS[:cyan]
+		when 'red',     'r' then Settings::COLORS[:red]
+		when 'green',   'g' then Settings::COLORS[:green]
+		when 'yellow',  'y' then Settings::COLORS[:yellow]
+		when 'blue',    'b' then Settings::COLORS[:blue]
+		when 'magenta', 'm' then Settings::COLORS[:magenta]
+		when 'cyan',    'c' then Settings::COLORS[:cyan]
 		else nil
 		end
 	end
 
 	MAKE_CODE_PROMPT = "Enter your secret code as a comma-separated list of " \
-			               "#{ Mastermind::BOARD_WIDTH } colors." \
+			               "#{ Settings::BOARD_WIDTH } colors." \
 			               "\nEnter Code: "
   MAKE_GUESS_PROMPT = "Enter your guess as a comma-separated list of " \
-			                "#{ Mastermind::BOARD_WIDTH } colors." \
+			                "#{ Settings::BOARD_WIDTH } colors." \
 			                "\nEnter Guess: "
 	INVALID_INPUT_MESSAGE = "Invalid Input. Please enter colors separated " \
 	                        "by a comma and/or space.\n"\

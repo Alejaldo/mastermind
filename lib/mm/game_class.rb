@@ -64,7 +64,7 @@ class MastermindGame
 		to_rate = @codebreaker.human? ? "your" : "#{ @codebreaker.name }'s"
 		print "Press Enter to rate #{ to_rate } guess..."; gets
 
-		rating = Mastermind::rate_guess(current_guess, secret_code)
+		rating = Settings::rate_guess(current_guess, secret_code)
 		# Give the AI feedback about the rating of it's last guess
 		@codebreaker.last_rating = rating if @codebreaker.ai?
 		@board.refresh_board(:rating, @board.rating_board_data(rating), 
@@ -90,7 +90,7 @@ class MastermindGame
 
 	# Check if the codebreker has exhausted all guesses
 	def max_guesses_exceeded?(guesses)
-		if guesses >= Mastermind::MAX_GUESSES
+		if guesses >= Settings::MAX_GUESSES
 			@codemaker.increase_score
 			@board.display_board
 			puts "#{ @codebreaker.name } did not get the secret code."
@@ -116,10 +116,10 @@ class MastermindGame
 		puts "#{ @codebreaker.name }: #{ @codebreaker.score } points;\t" \
 		     "#{ @codemaker.name }: #{ @codemaker.score } points. "
 		if @codebreaker.score == @codemaker.score
-			puts Mastermind::color("DRAW game.", "bold")
+			puts Settings::color("DRAW game.", "bold")
 		else
 			winner = [@codebreaker, @codemaker].max_by{ |player| player.score }
-			puts Mastermind::color("#{ winner.name } WINS.", "bold")
+			puts Settings::color("#{ winner.name } WINS.", "bold")
 		end
 	end
 
@@ -151,7 +151,7 @@ class MastermindGame
 	def get_role player_name
 		prompt =  "Enter your initial role, codemaker or codebreaker (M/B): "
 		while true
-			role = Mastermind::get_user_input(prompt)
+			role = Settings::get_user_input(prompt)
 			case role.strip.downcase
 			when 'm', 'codemaker', 'code maker', 'maker' then return 'm'
 			when 'b', 'codebreaker', 'code breaker', 'breaker' then return 'b'
@@ -165,14 +165,14 @@ class MastermindGame
 		puts "A round consists of two passes; once with you as codemaker\n" \
 			   "and once with you as codebreaker."
 		while true
-			rounds = Mastermind::get_user_input("Enter number of rounds (1-10): ")
+			rounds = Settings::get_user_input("Enter number of rounds (1-10): ")
 			return rounds.to_i if rounds.to_i.between?(1, 10)
 		end
 	end
 
 	# Get the user's name. Default to 'Player 1' if no name is provided
 	def get_player_name
-		player_name = Mastermind::get_user_input("Enter your name: ")
+		player_name = Settings::get_user_input("Enter your name: ")
 		player_name = "Player 1" if player_name.strip == ""
 		player_name
 	end
@@ -180,7 +180,7 @@ class MastermindGame
 	# Determine if user whats to play another Mastermind game
 	def play_again?
 		while true
-			play_again = Mastermind::get_user_input("Play again (y/n): ")
+			play_again = Settings::get_user_input("Play again (y/n): ")
 			case play_again.downcase
 			when 'y', 'yes' then return true
 			when 'n', 'no' then return false

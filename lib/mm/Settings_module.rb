@@ -1,5 +1,5 @@
 # Constants and helper functions for the Mastermind game
-module Mastermind
+module Settings
 	MAX_GUESSES = 12
 	BOARD_WIDTH = 4
 
