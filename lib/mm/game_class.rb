@@ -1,5 +1,5 @@
 # Class to create and run a Mastermind game
-class MastermindGame
+class Game
 
 	# Play as many games of Mastermind as the user wants
 	def play

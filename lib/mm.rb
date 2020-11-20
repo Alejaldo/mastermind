@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
-require './lib/mastermind/mastermind_module.rb'
-require './lib/mastermind/board.rb'
-require './lib/mastermind/player.rb'
-require './lib/mastermind/player_ai.rb'
-require './lib/mastermind/mastermind_game.rb'
-include Mastermind
+require './lib/mm/settings_module.rb'
+require './lib/mm/board_class.rb'
+require './lib/mm/player_class.rb'
+require './lib/mm/playerAI_class.rb'
+require './lib/mm/game_class.rb'
+include Settings
 
-mastermind_game = MastermindGame.new
+mastermind_game = Game.new
 mastermind_game.play
