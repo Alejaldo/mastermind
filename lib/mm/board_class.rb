@@ -16,6 +16,15 @@ class Board
 		@rating_board = blank_board
 	end
 
+	# Create a blank board
+	def blank_board
+		blank_board = []
+		Settings::MAX_GUESSES.times do
+			blank_board << get_blank_row
+		end
+		blank_board
+	end
+
 	# Display the entire board (with some instructions)
 	def display_board(hide_secret = false)
 		display_colors
@@ -59,15 +68,6 @@ class Board
 		@rating_board[row_number] = board_row
 	end
 
-	# Create a blank board
-	def blank_board
-		blank_board = []
-		Settings::MAX_GUESSES.times do
-			blank_board << get_blank_row
-		end
-		blank_board
-	end
-
 	# Create a blank row on the board
 	def get_blank_row
 		blank_row = []
@@ -101,11 +101,11 @@ class Board
 
 			display_row(decoding_row, HOLE_SIZE, false)
 			print " "
-		  display_row(rating_row, RATING_SIZE, true, false)
+		  	display_row(rating_row, RATING_SIZE, true, false)
 
-		  if index < @decoding_board.length - 1
-		  	display_boards_separators(method(:display_middle_separator))
-		  end
+		  	if index < @decoding_board.length - 1
+		  		display_boards_separators(method(:display_middle_separator))
+		  	end
 		end
 	end
 
@@ -139,8 +139,7 @@ class Board
 		print "\t" if tab
 		row.each do |hole_color| 
 			print SEPARATOR[:vertical]
-			print Settings::colorize(" " * width, 
-			Settings::get_color_code(hole_color))
+			print Settings::colorize(" " * width, Settings::get_color_code(hole_color))
 		end
 		print SEPARATOR[:vertical]
 		puts if new_line
