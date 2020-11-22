@@ -55,7 +55,7 @@ module Settings
 		return "0"
 	end
 
-  # Color is expected as a sting or symbol. Eg "red" or :red
+  # Color is expected as a string or symbol. Eg "red" or :red
 	def color(text, color)
 		if color == "error"
 			colorize(text, "31")
@@ -64,7 +64,7 @@ module Settings
 		elsif color == "bold"
 			colorize(text, "7")
 		else
-			colorize(text, get_color_code(COLORS.fetch(color.to_sym, 0)))
+			colorize(text, get_color_code(COLORS.fetch(color.to_sym)))
 		end
 	end
 end

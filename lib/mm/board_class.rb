@@ -10,8 +10,8 @@ class Board
 
 	# Clear all positions on the Mastermind gameboard
 	def reset_board
-		@secret_board = []
-		Settings::BOARD_WIDTH.times { @secret_board << Settings::COLORS[:blank] }
+		@hidden_board = []
+		Settings::BOARD_WIDTH.times { @hidden_board << Settings::COLORS[:blank] }
 		@decoding_board = blank_board
 		@rating_board = blank_board
 	end
@@ -20,15 +20,15 @@ class Board
 	def display_board(hide_secret = false)
 		display_colors
 		display_decoding_rating_board
-		display_secret_board(hide_secret)
+		display_hidden_board(hide_secret)
 	end
 
 	# Re-render gameboard after one of the boards changes
 	def refresh_board(board_type, board_row, hide_secret, row_number = 0)
 		case board_type
-		when :secret then update_secret_board(board_row)
-		when :decoding then update_decoding_board(board_row, row_number)
-		when :rating then update_rating_board(board_row, row_number)
+			when :secret then update_hidden_board(board_row)
+			when :decoding then update_decoding_board(board_row, row_number)
+			when :rating then update_rating_board(board_row, row_number)
 		end
 
 		display_board(hide_secret)
@@ -45,13 +45,10 @@ class Board
 		data
 	end
 
-  # *********************************************
-  # ************  PRIVATE METHODS  **************
-  # *********************************************
 	private
 
-	def update_secret_board(board)
-		@secret_board = board
+	def update_hidden_board(board)
+		@hidden_board = board
 	end
 
 	def update_decoding_board(board_row, row_number)
@@ -130,10 +127,10 @@ class Board
 	end
 
 	# Display the board with the secret code
-	def display_secret_board hide_secret
+	def display_hidden_board hide_secret
 		display_top_separator
 		display_row(get_blank_row) if hide_secret
-		display_row(@secret_board) unless hide_secret
+		display_row(@hidden_board) unless hide_secret
 		display_bottom_separator
 	end
 
@@ -143,7 +140,7 @@ class Board
 		row.each do |hole_color| 
 			print SEPARATOR[:vertical]
 			print Settings::colorize(" " * width, 
-				                         Settings::get_color_code(hole_color))
+			Settings::get_color_code(hole_color))
 		end
 		print SEPARATOR[:vertical]
 		puts if new_line
