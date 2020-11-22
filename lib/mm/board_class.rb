@@ -25,11 +25,37 @@ class Board
 		blank_board
 	end
 
+	# Create a blank row on the board
+	def get_blank_row
+		blank_row = []
+		Settings::BOARD_WIDTH.times { blank_row << Settings::COLORS[:blank] }
+		blank_row
+	end
+
 	# Display the entire board (with some instructions)
 	def display_board(hide_secret = false)
 		display_colors
 		display_decoding_rating_board
 		display_hidden_board(hide_secret)
+	end
+
+	# Display colors players may choose from
+	def display_colors
+		print "\nColors: "
+		Settings::COLORS.each do |color, _color_code|
+			unless color == :blank || color == :black || color == :white
+				color_string = color.to_s.capitalize
+				print Settings::color("  #{color_string}  ", color)
+			end
+		end
+		puts "\nChoose a color with it's full name or it's first character"
+	end
+
+	# Display the board guesses are made on
+	def display_decoding_rating_board
+		display_both_tops
+		display_both_centers
+		display_both_bottoms
 	end
 
 	# Re-render gameboard after one of the boards changes
@@ -66,32 +92,6 @@ class Board
 
 	def update_rating_board(board_row, row_number)
 		@rating_board[row_number] = board_row
-	end
-
-	# Create a blank row on the board
-	def get_blank_row
-		blank_row = []
-		Settings::BOARD_WIDTH.times { blank_row << Settings::COLORS[:blank] }
-		blank_row
-	end
-
-	# Display colors players may choose from
-	def display_colors
-		print "\nColors: "
-		Settings::COLORS.each do |color, _color_code|
-			unless color == :blank || color == :black || color == :white
-				color_string = color.to_s.capitalize
-				print Settings::color("  #{color_string}  ", color)
-			end
-		end
-		puts "\nChoose a color with it's full name or it's first character"
-	end
-
-	# Display the board guesses are made on
-	def display_decoding_rating_board
-		display_both_tops
-		display_both_centers
-		display_both_bottoms
 	end
 
 	# Display the center of the decoding and rating boards
