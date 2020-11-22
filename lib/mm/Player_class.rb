@@ -29,9 +29,6 @@ class Player
 		false
 	end
 
-  # *********************************************
-  # ************  PRIVATE METHODS  **************
-  # *********************************************
 	private
 
 	# Get a list of colors from the human player
@@ -68,12 +65,12 @@ class Player
 	# Convert the string representation of a color to a number
 	def encode_color color
 		case color.downcase
-		when 'red',     'r' then Settings::COLORS[:red]
-		when 'green',   'g' then Settings::COLORS[:green]
-		when 'yellow',  'y' then Settings::COLORS[:yellow]
-		when 'blue',    'b' then Settings::COLORS[:blue]
-		when 'magenta', 'm' then Settings::COLORS[:magenta]
-		when 'cyan',    'c' then Settings::COLORS[:cyan]
+			when 'red',     'r' then Settings::COLORS[:red]
+			when 'green',   'g' then Settings::COLORS[:green]
+			when 'yellow',  'y' then Settings::COLORS[:yellow]
+			when 'blue',    'b' then Settings::COLORS[:blue]
+			when 'magenta', 'm' then Settings::COLORS[:magenta]
+			when 'cyan',    'c' then Settings::COLORS[:cyan]
 		else nil
 		end
 	end
@@ -81,7 +78,7 @@ class Player
 	MAKE_CODE_PROMPT = "Enter your secret code as a comma-separated list of " \
 			               "#{ Settings::BOARD_WIDTH } colors." \
 			               "\nEnter Code: "
-  MAKE_GUESS_PROMPT = "Enter your guess as a comma-separated list of " \
+  	MAKE_GUESS_PROMPT = "Enter your guess as a comma-separated list of " \
 			                "#{ Settings::BOARD_WIDTH } colors." \
 			                "\nEnter Guess: "
 	INVALID_INPUT_MESSAGE = "Invalid Input. Please enter colors separated " \

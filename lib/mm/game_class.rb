@@ -1,24 +1,58 @@
-# Class to create and run a Mastermind game
 class Game
 
-	# Play as many games of Mastermind as the user wants
 	def play
 		player_name = get_player_name
 
-		while true
+		begin
 			setup(player_name)
 			play_game
 			break unless play_again?
-		end
-		puts "Thanks #{ player_name } for playing Mastermind...Play again soon :-)"
+		end while true
+		puts "Hey #{player_name}, game is over!"
 	end
 
-  # *********************************************
-  # ************  PRIVATE METHODS  **************
-  # *********************************************
 	private
 
-	# Play one game of Mastermind
+	def setup player_name
+		@rounds = get_rounds
+		initial_role = get_role(player_name)
+		set_roles(initial_role, player_name)
+		@board = Board.new
+	end
+
+	# defining the number of rounds
+	def get_rounds
+		system "clear"
+		puts "There are 2 round passes: 1) you as codemaker\n" \
+			   "2) you as codebreaker."
+		while true
+			rounds = Settings::get_user_input("Type number of rounds (1-12): ")
+			return rounds.to_i if rounds.to_i.between?(1, 12)
+		end
+	end
+
+	# Selection of player role
+	def get_role player_name
+		prompt =  "Enter your initial role, codemaker or codebreaker (M/B): "
+		while true
+			role = Settings::get_user_input(prompt)
+			case role.strip.downcase
+			when 'm', 'codemaker', 'code maker', 'maker' then return 'm'
+			when 'b', 'codebreaker', 'code breaker', 'breaker' then return 'b'
+			end
+		end
+	end
+
+	def set_roles(initial_role, player_name)
+		if initial_role == 'm'
+			@codemaker = Player.new(player_name)
+			@codebreaker = PlayerAI.new
+		else
+			@codebreaker = Player.new(player_name)
+			@codemaker = PlayerAI.new
+		end
+	end
+
 	def play_game
 		passes = 0
 		while true
@@ -126,48 +160,6 @@ class Game
 	# At the end of a turn switch codemaker and codebreaker
 	def switch_player_roles
 		@codebreaker, @codemaker = @codemaker, @codebreaker
-	end
-
-	# Setup for a game of Mastermind
-	def setup player_name
-		@rounds = get_rounds
-		initial_role = get_role(player_name)
-		set_roles(initial_role, player_name)
-		@board = Board.new
-	end
-
-	# Set the initial roles of the players based on the user's input
-	def set_roles(initial_role, player_name)
-		if initial_role == 'm'
-			@codemaker = Player.new(player_name)
-			@codebreaker = PlayerAI.new
-		else
-			@codebreaker = Player.new(player_name)
-			@codemaker = PlayerAI.new
-		end
-	end
-
-	# Get the initial role of the user
-	def get_role player_name
-		prompt =  "Enter your initial role, codemaker or codebreaker (M/B): "
-		while true
-			role = Settings::get_user_input(prompt)
-			case role.strip.downcase
-			when 'm', 'codemaker', 'code maker', 'maker' then return 'm'
-			when 'b', 'codebreaker', 'code breaker', 'breaker' then return 'b'
-			end
-		end
-	end
-
-	# Get how many rounds will be played in a game of Mastermind
-	def get_rounds
-		system "clear"
-		puts "A round consists of two passes; once with you as codemaker\n" \
-			   "and once with you as codebreaker."
-		while true
-			rounds = Settings::get_user_input("Enter number of rounds (1-10): ")
-			return rounds.to_i if rounds.to_i.between?(1, 10)
-		end
 	end
 
 	# Get the user's name. Default to 'Player 1' if no name is provided

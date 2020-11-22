@@ -1,12 +1,11 @@
-# AI to play the Mastermind game. Algorithm used for the AI is based on,
-# but not exactly, Donald Knuth's Five-guess algorithm
+# based on Donald Knuth's Five-guess algorithm (http://en.wikipedia.org/wiki/Mastermind_(board_game)#Algorithms)
 class PlayerAI < Player
 	attr_writer :last_rating
 
-	def initialize(difficulty = :medium)
-		ai = ["ENIAC", "HAL 9000", "Deep Thought", "Doctor", "Skynet", 
-			    "The Matrix", "Mother", "KITT", "Holly", "Prometheus"]
-		super(ai.sample)
+	def initialize
+		ai_options = ["William", "Harry", "Duke of Wellington", "Obama", "Society of Jesus", 
+			    "Mormons", "Banking System", "Boris Johnson", "SHUE", "Berl"]
+		super(ai_options.sample)
 	end
 
 	# Randomly choose a code for the human player to guess
@@ -18,12 +17,6 @@ class PlayerAI < Player
 		code
 	end
 
-	# This method is based on Donald Knuth's Five-guess algorithm
-	# (http://en.wikipedia.org/wiki/Mastermind_(board_game)#Algorithms)
-	# but due to the computationally expensive step 6 in the wikipedia
-	# article, this method randomly selects a possible code after the
-	# fifth step.  The performance of this AI is still close to that
-	# of the full Five-guess algorithm
 	def make_guess
 		print "Press Enter to generate #{ name }'s next guess..."; gets
 		return handle_first_guess if @first_guess
@@ -45,9 +38,6 @@ class PlayerAI < Player
 		true
 	end
 
-  # *********************************************
-  # ************  PRIVATE METHODS  **************
-  # *********************************************
 	private
 
 	# Select only the codes that could have produced the rating feedback
